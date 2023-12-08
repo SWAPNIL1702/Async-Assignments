@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE TIMER</title>
+</head>
+<style>
+    #box1{
+        border: 2px solid cyan;
+        height: 400px;
+    }
+    #box2{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        color: red;
+        align-items: center;
+        font-size: larger;
+        background-color: cyan;
+    }
+    #box3{
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    button{
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color:#383838;
+        height: 50px;
+        font-size: 18px;
+        border: 1px solid cyan;
+        color: red;
+        border-top-right-radius: 25px;
+        border-bottom-left-radius: 25px;
+        width: 100px;
+    }
+    button:hover{
+        scale: 1.1;
+    }
+    body{
+        background-color: cyan;
+    }
+    #the_font{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 50px;
+        width: 140px;
+        background-color:rgb(171, 255, 16);
+        font-size: 25px;
+        border-top-right-radius: 25px;
+        border-bottom-left-radius: 25px;
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+    #display{
+        width: 100px;
+        height: 45px;
+        background-color: transparent;
+        border-color: transparent;
+        font-size: 25px;
+        border-radius: 50px;
+    }
+    .input{
+        width: 50px;
+        height: 45px;
+        background-color: transparent;
+        border-color: transparent;
+        font-size: 15px;
+        border-radius: 25px;
+    }
+    
+</style>
+<body>
+<div id="box1">
+    <div id="box2">
+        <div id="the_font">
+            <input  type="text" name="" id="display" readonly>
+        </div>  
+    </div>
+    <div id="box2">
+        <div id="the_font" style="margin: 20px;">
+            <input type="number" class="input" name="" id="the_hours" placeholder="Hrs">
+        </div>
+        <div id="the_font" style="margin: 40px;">
+            <input type="number" class="input" name="" id="the_minutes" placeholder="Min">
+        </div>
+        <div id="the_font">
+            <input type="number" class="input" name="" id="the_seconds" placeholder="Sec">
+        </div>
+    </div>
+    <div id="box3">
+        <button id="start_button">Start</button>
+        <button id="stop_button">Stop</button>
+        <button id="restart_button">Restart</button>
+    </div>
+</div>
+</body>
+<script>
+
+const hoursInput = document.getElementById("the_hours");
+const minutesInput = document.getElementById("the_minutes");
+const secondsInput = document.getElementById("the_seconds");
+const display2 = document.getElementById("display");
+let time;
+let timeint;
+const startButton = document.getElementById("start_button");
+const stopButton = document.getElementById("stop_button");
+
+function timer() {
+    time = (+hoursInput.value*3600) + (+minutesInput.value* 60) + +secondsInput.value;
+    let currentTime = 1;
+    timeint = setInterval(function () {
+        if (time >= 1) {
+            time -= currentTime;
+            display2.value = formatTime(time);
+        }
+    }, 1000);
+}
+startButton.addEventListener("click", timer);
+
+const stop = function () {
+    clearInterval(timeint);
+};
+stopButton.addEventListener('click', stop);
+
+const restartButton = document.getElementById("restart_button");
+restartButton.addEventListener('click', function () {
+    clearInterval(timeint);
+    display2.value =  "00:00:00";
+    hoursInput.value = "";
+    minutesInput.value = "";
+    secondsInput.value = "";
+    stop()
+}, false);
+
+function formatTime(seconds){
+    const hrs = Math.floor(seconds/3600)
+    const mins = Math.floor((seconds% 3600) /60 ) ;
+    const secs = seconds % 60;
+    return `${String(hrs).padStart(2,"0")}:${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+}
+</script>
+</html>
